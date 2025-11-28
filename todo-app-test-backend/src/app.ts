@@ -4,11 +4,13 @@ dotenv.config();
 import { authRouter } from "./routes/AuthRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
 import { taskRouter } from "./routes/TaskRoutes";
-
+const cors = require("cors");
 const express = require("express");
 
 const app = express();
-const port = 3000;
+const port = 3005;
+
+app.use(cors({ origin: "http://localhost:3000" }));
 
 app.use(express.json());
 
