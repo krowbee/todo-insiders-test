@@ -2,13 +2,13 @@ import { HttpException } from "../errors/HttpException";
 import { prisma } from "../prisma/prisma";
 import { Prisma, Task } from "@prisma/client";
 
-enum TaskStatus {
+export enum TaskStatus {
   TODO = "TODO",
   PROGRESS = "PROGRESS",
   COMPLETE = "COMPLETE",
 }
 
-export class TaskService {
+class TaskService {
   async findTaskById(
     taskWhereUniqueInput: Prisma.TaskWhereUniqueInput
   ): Promise<Task> {
@@ -22,31 +22,48 @@ export class TaskService {
   }
 
   async createTask(taskCreateInput: Prisma.TaskCreateInput): Promise<Task> {
-    return prisma.task.create({ data: taskCreateInput });
+    try {
+      const task = await prisma.task.create({ data: taskCreateInput });
+      return task;
+    } catch (err) {
+      throw new HttpException(403, "Invalid data for create task");
+    }
   }
 
   async updateTask(
     taskWhereUniqueInput: Prisma.TaskWhereUniqueInput,
     taskUpdateInput: Prisma.TaskUpdateInput
   ): Promise<Task> {
-    return prisma.task.update({
-      where: taskWhereUniqueInput,
-      data: taskUpdateInput,
-    });
+    try {
+      const task = await prisma.task.update({
+        where: taskWhereUniqueInput,
+        data: taskUpdateInput,
+      });
+      return task;
+    } catch (err) {
+      throw new HttpException(403, "Invalid data for updating task");
+    }
   }
 
   async deleteTask(
     taskWhereUniqueInput: Prisma.TaskWhereUniqueInput
   ): Promise<Task> {
-    return prisma.task.delete({ where: taskWhereUniqueInput });
+    try {
+      const task = await prisma.task.delete({ where: taskWhereUniqueInput });
+      return task;
+    } catch (err) {
+      throw new HttpException(403, "Invalid request");
+    }
   }
 
-  async validateAccess(taskId: number, userId: number): Promise<boolean> {
+  async validateAccess(taskId: number, userId: number): Promise<Task> {
     const task = await this.findTaskById({ id: taskId });
 
     if (task.ownerId !== userId)
       throw new HttpException(403, "You don't have access to this resource");
 
-    return true;
+    return task;
   }
 }
+
+export const taskService = new TaskService();
