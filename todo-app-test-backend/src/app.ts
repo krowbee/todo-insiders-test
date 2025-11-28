@@ -1,7 +1,8 @@
 import { Response, Request } from "express";
 import * as dotenv from "dotenv";
-
 dotenv.config();
+import { authRouter } from "./routes/AuthRoutes";
+import { errorHandler } from "./middlewares/errorHandler";
 
 const express = require("express");
 
@@ -13,6 +14,9 @@ app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World@@");
 });
+
+app.use("/auth", authRouter);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server works on port ${port} `);

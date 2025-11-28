@@ -2,7 +2,7 @@ import * as jwt from "jsonwebtoken";
 
 const secret = process.env.JWT_SECRET!;
 
-export class TokenService {
+class TokenService {
   generateAccessToken(email: string, id: number): string {
     const token = jwt.sign({ email, id }, secret, { expiresIn: "7d" });
     return token;
@@ -13,3 +13,5 @@ export class TokenService {
     return user;
   }
 }
+
+export const tokenService = new TokenService();
