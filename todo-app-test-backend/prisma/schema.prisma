@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = "postgresql://postgres:newpasswd@localhost:5432/todoinsidersdb"
+}
+
+
+model User{
+  id Int @id @default(autoincrement())
+  username String @unique
+  password String
+  tasks Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TaskStatus {
+  TODO
+  PROGRESS
+  COMPLETE
+}
+
+model Task{
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  status TaskStatus
+  owner User @relation(fields: [ownerId], references: [id])
+  ownerId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
