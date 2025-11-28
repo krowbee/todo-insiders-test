@@ -8,8 +8,4 @@ const express = require("express");
 export const authRouter = express.Router();
 
 authRouter.post("/register", validate(registerSchema), authController.register);
-authRouter.post(
-  "/login",
-  [validate(LoginSchema), isAuth],
-  authController.login
-);
+authRouter.post("/login", validate(LoginSchema), authController.login);

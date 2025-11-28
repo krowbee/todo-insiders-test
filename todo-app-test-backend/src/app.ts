@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import { authRouter } from "./routes/AuthRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
+import { taskRouter } from "./routes/TaskRoutes";
 
 const express = require("express");
 
@@ -16,6 +17,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/auth", authRouter);
+app.use("/task", taskRouter);
 app.use(errorHandler);
 
 app.listen(port, () => {
