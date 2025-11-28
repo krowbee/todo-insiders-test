@@ -12,11 +12,14 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.18.0",
+    "bcrypt": "^6.0.0",
     "express": "^5.1.0",
     "pg": "^8.16.3",
-    "prisma": "^6.18.0"
+    "prisma": "^6.18.0",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.5",
     "@types/node": "^24.10.1",
     "ts-node-dev": "^2.0.0",
