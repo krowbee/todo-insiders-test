@@ -12,7 +12,6 @@
     // For nodejs:
     "lib": ["ES2023"],
 
-
     // Other Outputs
     "sourceMap": true,
     "declaration": true,
